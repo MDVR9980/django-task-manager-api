@@ -1,10 +1,10 @@
 from django.shortcuts import render
-# from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.serializers import TaskSerializer
-from api.models import Task
+from api.serializers import TaskSerializer, ProductSerializer
+from api.models import Task, Product
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -18,6 +18,20 @@ def apiOverview(request):
 
     return Response(api_urls)
 
+# for products:
+@api_view(['GET'])
+def productList(request):
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def productDetail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    serializer = ProductSerializer(product, many=False)
+    return Response(serializer.data)
+
+# for tasks :
 @api_view(['GET'])
 def taskList(request):
     tasks = Task.objects.all()
