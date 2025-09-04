@@ -1,1 +1,1 @@
-# Django Rest Framework - Application Programming Interface Project
+# Django Rest Framework - Application Programming Interface 
