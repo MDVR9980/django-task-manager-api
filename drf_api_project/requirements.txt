@@ -1,5 +1,7 @@
 asgiref==3.9.1
 Django==5.2.6
+django-extensions==4.1
 djangorestframework==3.16.1
 pillow==11.3.0
 sqlparse==0.5.3
+tzdata==2025.2
