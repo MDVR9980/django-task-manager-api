@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.serializers import TaskSerializer, ProductSerializer, OrderSerializer, OrderItemSerializer
-from api.models import Task, Product, Order, OrderItem
+from api.serializers import ProductSerializer, OrderSerializer, OrderItemSerializer
+from api.models import Product, Order, OrderItem
 
 @api_view(['GET'])
 def apiOverview(request):
