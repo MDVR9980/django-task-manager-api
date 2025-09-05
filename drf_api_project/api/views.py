@@ -9,11 +9,8 @@ from api.models import Product, Order, OrderItem
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
-        'List': '/task-list/',
-        'Detail View': '/task-detail/<str:pk>/',
-        'Create': '/task-create/',
-        'Update': '/task-update/<str:pk>/',
-        "Delete": '/task-delete/<str:pk>/',
+        'List': '/product-list/',
+        'Detail View': '/product-detail/<str:pk>/',
         }
 
     return Response(api_urls)
