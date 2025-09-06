@@ -5,8 +5,13 @@ urlpatterns = [
     path('', views.apiOverview, name="api-overview"),
 
     # for products :
-    path('product-list/', views.productList, name="product-list"),
-    path('product-detail/<int:pk>', views.productDetail, name="product-detail"),
+    # path('product-list/', views.productList, name="product-list"),
+    path('product-list/', views.productListAPIView.as_view(), name="product-list"),
+    path('products/info/', views.product_info, name="product-info"),
+    # path('product-detail/<int:pk>', views.productDetail, name="product-detail"),
+    path('product-detail/<int:product_id>', views.ProductDetailAPIView.as_view(), name="product-detail"),
     # for orders :
-    path('order-list/', views.orderList, name="order-list"),
+    # path('order-list/', views.orderList, name="order-list"),
+    path('order-list/', views.OrderListAPIView.as_view(), name="order-list"),
+    path('user-order-list/', views.UserOrderListAPIView.as_view(), name="order-list"),
 ]
