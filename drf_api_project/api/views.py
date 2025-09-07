@@ -12,6 +12,8 @@ from rest_framework.permissions import (
     AllowAny
 )
 from rest_framework.views import APIView
+# from django_filters.rest_framework import DjangoFilterBackend
+from api.filters import ProductFilter
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -40,6 +42,8 @@ class ProductListAPIView(generics.ListAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    # filterset_fields = ('name', 'price',)
+    filterset_class = ProductFilter
 
     def get_permissions(self):
         self.permission_classes = [AllowAny]
