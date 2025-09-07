@@ -6,8 +6,13 @@ from rest_framework.response import Response
 from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
 from api.models import Product, Order, OrderItem
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (
+    IsAuthenticated, 
+    IsAdminUser,
+    AllowAny
+)
 from rest_framework.views import APIView
+
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
@@ -19,7 +24,7 @@ def apiOverview(request):
 
 
 # for products:
-class productListAPIView(generics.ListAPIView):
+class ProductListAPIView(generics.ListAPIView):
     # queryset = Product.objects.filter(stock__gt=0)
     # queryset = Product.objects.exclude(stock__gt=0)
     queryset = Product.objects.all()
@@ -27,16 +32,22 @@ class productListAPIView(generics.ListAPIView):
     # permission_classes = [isAdminUser]
 
 # @api_view(['GET'])
-# def productList(request):
+# def ProductList(request):
 #     products = Product.objects.all()
 #     serializer = ProductSerializer(products, many=True)
 #     return Response(serializer.data)
 
-class productListCreateAPIView(generics.ListCreateAPIView):
+class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class productCreateAPIView(generics.CreateAPIView):
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method == 'POST':
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+
+class ProductCreateAPIView(generics.CreateAPIView):
     model = Product
     serializer_class = ProductSerializer
 
@@ -53,7 +64,7 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     lookup_url_kwarg = 'product_id' # by default is pk
 
 # @api_view(['GET'])
-# def productDetail(request, pk):
+# def ProductDetail(request, pk):
 #     product = get_object_or_404(Product, pk=pk)
 #     serializer = ProductSerializer(product, many=False)
 #     return Response(serializer.data)
@@ -69,7 +80,7 @@ class ProductInfoView(APIView):
         return Response(serializer.data) 
 
 # @api_view(['GET'])
-# def product_info(request):
+# def Product_info(request):
 #     products = Product.objects.all()
 #     serializer = ProductInfoSerializer({
 #         'products': products,
@@ -77,6 +88,43 @@ class ProductInfoView(APIView):
 #         'max_price': products.aggregate(max_price=Max('price'))['max_price']
 #     })
 #     return Response(serializer.data)
+
+class ProductUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # permission_classes = [isAdminUser]
+    lookup_url_kwarg = 'product_id' # by default is pk
+
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+    
+class ProductDeleteAPIView(generics.RetrieveDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # permission_classes = [isAdminUser]
+    lookup_url_kwarg = 'product_id' # by default is pk
+
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+    
+class ProductUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # permission_classes = [isAdminUser]
+    lookup_url_kwarg = 'product_id' # by default is pk
+
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+
 
 # for orders:
 
@@ -96,7 +144,7 @@ class UserOrderListAPIView(generics.ListAPIView):
         return qs.filter(user=self.request.user)
 
 # @api_view(['GET'])
-# def orderList(request):
+# def OrderList(request):
 #     orders = Order.objects.prefetch_related('items__product').all()
 #     serializer = OrderSerializer(orders, many=True)
 #     return Response(serializer.data)

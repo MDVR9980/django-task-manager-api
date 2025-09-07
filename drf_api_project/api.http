@@ -1,0 +1,98 @@
+GET http://localhost:8000/products/ HTTP/1.1
+
+###
+
+GET http://localhost:8000/product-update/2 HTTP/1.1
+
+###
+
+PUT http://localhost:8000/product-update/2 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MjMwNTAzLCJpYXQiOjE3NTcyMzAyMDMsImp0aSI6IjhmNjVhOGFjYmM3NDRmM2ZiOGZlNzdjY2Y3N2YxY2NmIiwidXNlcl9pZCI6IjEifQ.GaI-LgefnJT4FYY1adUVWEUD13j3tZnxvMaExRaEfgI
+
+{
+    "name": "Television",
+    "price": 300.00,
+    "stock": 14, 
+    "description": "An Amazing new TV"
+}
+
+###
+
+GET http://localhost:8000/product-delete/2 HTTP/1.1
+
+###
+
+DELETE http://localhost:8000/product-delete/2 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MjMxMTUxLCJpYXQiOjE3NTcyMzA4NTEsImp0aSI6IjY3MDVlYjZkYzhhZTQwN2FhZGZlOTkwZWJhZjI0NjVhIiwidXNlcl9pZCI6IjEifQ.JPov25ME158Hka6SZFOoI22cOewMBBsH0tRmLtGfnBg
+
+###
+
+PUT http://localhost:8000/product-update-delete/2 HTTP/1.1
+Content-Type: application/json
+Authorization:   Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MjMxMTUxLCJpYXQiOjE3NTcyMzA4NTEsImp0aSI6IjY3MDVlYjZkYzhhZTQwN2FhZGZlOTkwZWJhZjI0NjVhIiwidXNlcl9pZCI6IjEifQ.JPov25ME158Hka6SZFOoI22cOewMBBsH0tRmLtGfnBg
+
+{
+    "name": "Television",
+    "price": 300.00,
+    "stock": 14, 
+    "description": "An Amazing new TV"
+}
+
+###
+
+GET http://localhost:8000/product-update-delete/1 HTTP/1.1
+
+###
+
+DELETE http://localhost:8000/product-update-delete/1 HTTP/1.1
+
+###
+
+PUT http://localhost:8000/product-update-delete/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzMxNTQ1MSwiaWF0IjoxNzU3MjI5MDUxLCJqdGkiOiI2Y2JlNzFkODAwYmE0ZWQxODJmN2Y5MzU0NTg0MjVlZiIsInVzZXJfaWQiOiIyIn0.DAvtBG0RGBagE8WZOIrT2KzxRTH-ipYbppL9kFDvJIg
+
+{
+    "name": "Television",
+    "price": 300.00,
+    "stock": 14, 
+    "description": "An Amazing new TV"
+}
+
+###
+
+POST http://localhost:8000/products/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MjI1MzIwLCJpYXQiOjE3NTcyMjUwMjAsImp0aSI6ImRkMGU3OGVmMmViYzQzMzg4MTU0ZTQ3Mzk1MzZmZDllIiwidXNlcl9pZCI6IjIifQ.2ZVyqHTTkD5PNkd8u7-tslNgQN3E0bdWTWDnnvhhroI
+
+{
+    "name": "Television",
+    "price": 300.00,
+    "stock": 14, 
+    "description": "An Amazing new TV"
+}
+
+###
+
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "test"
+}
+
+###
+
+# GET http://localhost:8000/user-order-list/ HTTP/1.1
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MjI1MzIwLCJpYXQiOjE3NTcyMjUwMjAsImp0aSI6ImRkMGU3OGVmMmViYzQzMzg4MTU0ZTQ3Mzk1MzZmZDllIiwidXNlcl9pZCI6IjIifQ.2ZVyqHTTkD5PNkd8u7-tslNgQN3E0bdWTWDnnvhhroI
+
+### 
+
+POST http://localhost:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzMxNDM2NCwiaWF0IjoxNzU3MjI3OTY0LCJqdGkiOiJlOWY5YjUzYTU1NzI0OTUxYmQ0MGI3MDUwNTM4NTM5ZSIsInVzZXJfaWQiOiIyIn0.cKuPOEWTTCtxfwckoarD-ucotBJDus77UZa8ah7DwTU"
+}
