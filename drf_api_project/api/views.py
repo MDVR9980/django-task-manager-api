@@ -1,25 +1,20 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 from django.db.models import Max
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from api.serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
-from api.models import Product, Order, OrderItem
-from rest_framework import generics, filters, viewsets
-from rest_framework.permissions import (
-    IsAuthenticated, 
-    IsAdminUser,
-    AllowAny
-)
-from rest_framework.views import APIView
-# from django_filters.rest_framework import DjangoFilterBackend
-from api.filters import (
-    ProductFilter, 
-    InStockFilterBackend, 
-    OrderFilter
-)
+from django.shortcuts import get_object_or_404, render
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework import filters, generics, viewsets
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.pagination import (LimitOffsetPagination,
+                                       PageNumberPagination)
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+# from django_filters.rest_framework import DjangoFilterBackend
+from api.filters import InStockFilterBackend, OrderFilter, ProductFilter
+from api.models import Order, OrderItem, Product
+from api.serializers import (OrderSerializer, ProductInfoSerializer,
+                             ProductSerializer)
+
 
 @api_view(['GET'])
 def apiOverview(request):
