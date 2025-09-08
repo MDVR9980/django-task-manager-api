@@ -23,6 +23,8 @@ urlpatterns = [
     # # path('order-list/', views.OrderList, name="order-list"),
     # path('order-list/', views.OrderListAPIView.as_view(), name="order-list"),
     # path('user-order-list/', views.UserOrderListAPIView.as_view(), name="user-order-list"),
+
+    path('users/', views.UserListView.as_view(), name="user-list"),
 ]
 
 router = DefaultRouter()

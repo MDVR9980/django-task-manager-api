@@ -7,20 +7,36 @@ from rest_framework.decorators import (
     permission_classes,
     action,
 )
-from rest_framework.pagination import (LimitOffsetPagination,
-                                       PageNumberPagination)
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.pagination import (
+    LimitOffsetPagination,
+    PageNumberPagination
+)
+from rest_framework.permissions import (
+    AllowAny, 
+    IsAdminUser, 
+    IsAuthenticated,
+)
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # from django_filters.rest_framework import DjangoFilterBackend
-from api.filters import InStockFilterBackend, OrderFilter, ProductFilter
-from api.models import Order, OrderItem, Product
+from api.filters import (
+    InStockFilterBackend, 
+    OrderFilter, 
+    ProductFilter,
+)
+from api.models import (
+    Order, 
+    OrderItem, 
+    Product,
+    User,
+)
 from api.serializers import (
     OrderSerializer, 
     ProductInfoSerializer,
     ProductSerializer,
-    OrderCreateSerializer,    
+    OrderCreateSerializer,  
+    UserSerializer,  
 )
 
 
@@ -192,6 +208,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(orders, many=True)
         return Response(serializer.data)
 
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    pagination_class = None
 # # for orders:
 
 # class OrderListAPIView(generics.ListAPIView):
