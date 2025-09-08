@@ -2,7 +2,11 @@ from django.db.models import Max
 from django.shortcuts import get_object_or_404, render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, generics, viewsets
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import (
+    api_view, 
+    permission_classes,
+    action,
+)
 from rest_framework.pagination import (LimitOffsetPagination,
                                        PageNumberPagination)
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
@@ -12,8 +16,12 @@ from rest_framework.views import APIView
 # from django_filters.rest_framework import DjangoFilterBackend
 from api.filters import InStockFilterBackend, OrderFilter, ProductFilter
 from api.models import Order, OrderItem, Product
-from api.serializers import (OrderSerializer, ProductInfoSerializer,
-                             ProductSerializer)
+from api.serializers import (
+    OrderSerializer, 
+    ProductInfoSerializer,
+    ProductSerializer,
+    OrderCreateSerializer,    
+)
 
 
 @api_view(['GET'])
@@ -150,10 +158,39 @@ class ProductUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related('items__product').all()
     serializer_class = OrderSerializer
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     pagination_class = None
     filterset_class = OrderFilter
     filter_backends = [DjangoFilterBackend]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        # can also check if POST : if self.request.method == 'POST'
+        if self.action == 'create' or self.action == 'update':
+            return OrderCreateSerializer
+        return super().get_serializer_class()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if not self.request.user.is_staff:
+            qs = qs.filter(user=self.request.user)
+        return qs
+    
+
+    @action(
+        detail=False,
+        methods=['get'], 
+        url_path='user-orders',
+        # permission_classes = [IsAuthenticated],
+    )
+
+    def user_orders(self, request):
+        orders = self.get_queryset().filter(user=request.user)
+        serializer = self.get_serializer(orders, many=True)
+        return Response(serializer.data)
 
 # # for orders:
 

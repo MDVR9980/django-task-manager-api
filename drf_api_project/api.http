@@ -96,3 +96,53 @@ Content-Type: application/json
 {
     "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzMxNDM2NCwiaWF0IjoxNzU3MjI3OTY0LCJqdGkiOiJlOWY5YjUzYTU1NzI0OTUxYmQ0MGI3MDUwNTM4NTM5ZSIsInVzZXJfaWQiOiIyIn0.cKuPOEWTTCtxfwckoarD-ucotBJDus77UZa8ah7DwTU"
 }
+
+###
+
+GET http://localhost:8000/orders/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MzQxNjk0LCJpYXQiOjE3NTczNDEzOTQsImp0aSI6IjEyZDgyZGIxMzBmYTQzOTJiY2ZhNGYwOGVlYzUyNmE2IiwidXNlcl9pZCI6IjEifQ.r5k8WlvliZkmT0kuCkAIhqK4nFQyCzA3tdlULvSiEiQ
+
+###
+
+POST http://localhost:8000/orders/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MzQzNTc1LCJpYXQiOjE3NTczNDMyNzUsImp0aSI6IjdhN2FhN2VmMmI0MjQ4YmRiYjMzZGRlNWZmNTcwM2E0IiwidXNlcl9pZCI6IjEifQ.WAHeuGGDybwl_PmwI6HKryXFb0L9_s3WYhvyd_6i3Bk
+
+{
+    "status": "Pending",
+    "items": [
+        {
+            "product": 3,
+            "quantity": 2
+        },
+        {
+            "product": 4,
+            "quantity": 1
+        }
+    ]
+}
+
+###
+
+PUT http://localhost:8000/orders/300b937d-27f1-46f8-b993-c94ca869898e HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MzQzNTc1LCJpYXQiOjE3NTczNDMyNzUsImp0aSI6IjdhN2FhN2VmMmI0MjQ4YmRiYjMzZGRlNWZmNTcwM2E0IiwidXNlcl9pZCI6IjEifQ.WAHeuGGDybwl_PmwI6HKryXFb0L9_s3WYhvyd_6i3Bk
+
+{
+    "status": "Pending",
+    "items": [
+        {
+            "product": 3,
+            "quantity": 100
+        },
+        {
+            "product": 4,
+            "quantity": 50
+        }
+    ]
+}
+
+###
+
+DELETE http://localhost:8000/orders/300b937d-27f1-46f8-b993-c94ca869898e HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MzQzNTc1LCJpYXQiOjE3NTczNDMyNzUsImp0aSI6IjdhN2FhN2VmMmI0MjQ4YmRiYjMzZGRlNWZmNTcwM2E0IiwidXNlcl9pZCI6IjEifQ.WAHeuGGDybwl_PmwI6HKryXFb0L9_s3WYhvyd_6i3Bk

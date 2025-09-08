@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from api.models import Product, Order, OrderItem
+from django.db import transaction
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,6 +39,55 @@ class OrderItemSerializer(serializers.ModelSerializer):
             'quantity',
             'item_subtotal',
         )
+
+class OrderCreateSerializer(serializers.ModelSerializer):
+    class OrderItemCreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = OrderItem
+            fields = ('product', 'quantity')
+
+    order_id = serializers.UUIDField(read_only=True)
+    items = OrderItemCreateSerializer(many=True, required=False)
+
+    def update(self, instance, validated_data):
+        orderitem_data = validated_data.pop('items')
+        with transaction.atomic():
+            instance = super().update(instance, validated_data)
+
+            if orderitem_data is not None:
+                # Clear existing items (optional, depends on requirements)
+                instance.items.all().delete()
+
+                # Recreate items with the updated data
+                for item in orderitem_data:
+                    OrderItem.objects.create(order=instance, **item)
+
+        return instance
+
+    def create(self, validated_data):
+        orderitem_data = validated_data.pop('items')
+
+        with transaction.atomic():
+            order = Order.objects.create(**validated_data)
+            
+            for item_data in orderitem_data:
+                OrderItem.objects.create(order=order, **item_data)
+
+        return order
+
+    class Meta:
+        model = Order
+        fields = (
+            'order_id',
+            'user',
+            'status', 
+            'items',
+        )
+        extra_kwargs = {
+            'user': {'read_only': True}
+        }
+
+
 
 class OrderSerializer(serializers.ModelSerializer):
     order_id = serializers.UUIDField(read_only=True)
